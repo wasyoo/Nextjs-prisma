@@ -1,0 +1,57 @@
+type User {
+  id:ID! @id
+  firstName: String
+  lastName: String
+  email: String @unique
+  password: String
+  phone: String
+  address: String
+  typeOfAuth: String
+  avatar: String
+  role: String @default(value: "client")
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
+  order: [Order] @relation(link: INLINE)
+}
+
+type Product{
+  id:ID! @id
+  name: String
+  description: String
+  price: Float
+  quantity: Int
+  image: String
+  category: Category @relation(link: INLINE)
+  brand: Brand @relation(link: INLINE)
+}
+
+type Order {
+  id: ID! @id
+  user: User
+  items: [OrderItem] @relation(link: INLINE)
+  totalPrice: Float
+  totalQuantity: Int
+  createdAt: DateTime @createdAt
+  updatedAt: DateTime @updatedAt
+  state: String
+}
+
+type OrderItem{
+  id: ID! @id
+  product: Product @relation(link: INLINE)
+  quantity: Int
+}
+
+type Brand{
+  id: ID! @id
+  name: String
+  description: String
+  filename: String,
+}
+
+type Category{
+  id: ID! @id
+  name: String
+  parent: Category @relation(link: INLINE)
+  products: [Product]
+}
